@@ -1,7 +1,7 @@
 
 import pygame
 import numpy as np
-from colors import Colors
+from .colors import Colors
 from .snake import Snake
 
 SCREEN_RATIO = 30
@@ -12,7 +12,7 @@ class World:
     Class that represents the environment in which the game will be played
     """
 
-    def __init__(self, snake: Snake, board: np.ndarray = np.zeros(20, 15)):
+    def __init__(self, snake: Snake, board: np.ndarray = np.zeros((20, 15))):
 
         # create game
         pygame.init()
@@ -28,11 +28,23 @@ class World:
         self.snake = snake
         self.board = board
 
+    def _clear(self):
+        """
+        Private method to clear the world of the previous state.
+        We need this method because the snake will keep moving, so we should not remember it's previous
+        locations
+        """
+        self.board = np.zeros(self.board.shape)
+
     def _process(self):
         """
         Function to process the location of the snake and food and draw it into the world
         """
 
+        # start by clearing the board
+        self._clear()
+
+        # get head coordinates
         head = self.snake.head_coords
 
         # draw the snake head

@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 from snake_gym.game import World, Snake
 
 
@@ -23,7 +24,7 @@ def main():
     done = False
     i = 0
     while not done:
-        df = clock.tick(8)
+        df = clock.tick(4)
 
         # check all events
         for event in pygame.event.get():

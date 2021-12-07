@@ -17,7 +17,7 @@ class Snake:
         """
         # store the board
 
-        self.head_coords = [0, 0]
+        self.head_coords = [0, 7]
 
     def move(self, xy_move):
         """
