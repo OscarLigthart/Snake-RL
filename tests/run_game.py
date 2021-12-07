@@ -7,11 +7,11 @@ clock = pygame.time.Clock()
 
 def main():
 
-    # create world
-    world = World()
+    # create snake
+    snake = Snake()
 
-    # create snake, make sure it has access to the world
-    snake = Snake(world)
+    # create world
+    world = World(snake)
 
     # draw environment
     world.draw()
