@@ -24,7 +24,6 @@ class Board:
         self.actions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
         self.direction = [1, 0]
 
-
     def draw(self):
 
         # start with black background
@@ -40,8 +39,8 @@ class Board:
                 # draw snake part
                 if self.board[i, j] == 1:
                     pygame.draw.rect(self.screen, helpers.WHITE,
-                                     pygame.Rect(i*helpers.SCREEN_RATIO,
-                                                 j*helpers.SCREEN_RATIO,
+                                     pygame.Rect(i * helpers.SCREEN_RATIO,
+                                                 j * helpers.SCREEN_RATIO,
                                                  helpers.SCREEN_RATIO - 2, helpers.SCREEN_RATIO - 2))
 
                 # draw food
@@ -155,7 +154,6 @@ class Board:
             return 0.1
         else:
             return -0.2
-
 
     def reset(self):
         """
