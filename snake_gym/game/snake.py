@@ -15,8 +15,8 @@ class Snake:
         """
         Initialization method
         """
-        # store the board
 
+        # store head coordinates
         self.head_coords = [0, 7]
 
     def move(self, xy_move):
