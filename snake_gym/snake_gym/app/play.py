@@ -50,13 +50,6 @@ def main():
         # need to take a step here, keep track of
         state, reward, done = env.step(action)
 
-        print("STATE")
-        print(state)
-        print("REWARD")
-        print(reward)
-        print("DONE")
-        print(done)
-
 
 if __name__ == "__main__":
     main()
