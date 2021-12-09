@@ -65,3 +65,10 @@ action_space = {
     Actions.LEFT: [-1, 0],
     Actions.RIGHT: [1, 0],
 }
+
+movement_space = {
+    (0, -1): Actions.UP,
+    (0, 1): Actions.DOWN,
+    (-1, 0): Actions.LEFT,
+    (1, 0): Actions.RIGHT
+}

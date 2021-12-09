@@ -5,7 +5,7 @@
 #
 ########################
 
-from .actions import action_space, Actions
+from .actions import action_space, movement_space, Actions, AgentActions
 import numpy as np
 
 
@@ -95,3 +95,18 @@ class AgentSnake(Snake):
         Move functions for the agent work slightly different
         """
 
+        # convert to the direction
+        relative_movement = AgentActions.convert(self.direction, action)
+        self.direction = movement_space[tuple(relative_movement)]
+
+        # move the head in the direction specified by changes in coordinates
+        next_location = [sum(pair) for pair in zip(self.head_coords, relative_movement)]
+
+        # clip the next location to get the new head coords
+        self.head_coords = self.clip(next_location)
+
+        # now move the body
+        self.body.insert(0, self.head_coords)
+
+        # trim the body
+        self.body = self.body[:self.length]

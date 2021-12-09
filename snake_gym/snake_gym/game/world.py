@@ -157,10 +157,3 @@ class World:
 
         # update display
         pygame.display.update()
-
-    def reset(self):
-        """
-        A function to reset the world
-        """
-
-        # todo implement

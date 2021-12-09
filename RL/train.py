@@ -5,9 +5,18 @@
 #
 #################
 
+import pygame
 import torch
 import torch.nn.functional as F
-from utils.helpers import compute_q_val, compute_target
+from torch import optim
+from utils.helpers import compute_q_val, compute_target, select_action, get_epsilon
+from utils.memory import ReplayMemory
+from agent.qnetwork import QNetwork
+from pygame.locals import *
+from snake_gym.env import Env
+
+
+clock = pygame.time.Clock()
 
 
 def train(model, memory, optimizer, batch_size, discount_factor):
@@ -48,14 +57,6 @@ def train(model, memory, optimizer, batch_size, discount_factor):
 
     return loss.item()
 
-import pygame
-from pygame.locals import *
-from game import Board
-from RL.model import *
-import helpers
-
-clock = pygame.time.Clock()
-
 
 def run_episodes(train, model, memory, env, num_episodes, batch_size, discount_factor, learn_rate, df):
     optimizer = optim.Adam(model.parameters(), learn_rate)
@@ -71,10 +72,12 @@ def run_episodes(train, model, memory, env, num_episodes, batch_size, discount_f
         for t in range(1000):
 
             # determine game speed
-            df = clock.tick(5)
-
-            # create background
-            epsilon = get_epsilon(global_steps)
+            if i % 25 == 0 and i != 0:
+                df = clock.tick(25)
+                epsilon = 0
+            else:
+                df = clock.tick(100)
+                epsilon = get_epsilon(global_steps)
 
             action = select_action(model, state, epsilon)
 
@@ -89,12 +92,6 @@ def run_episodes(train, model, memory, env, num_episodes, batch_size, discount_f
             state = next_state
             global_steps += 1
 
-            # draw new board state
-            env.draw()
-
-            # update display
-            pygame.display.update()
-
             if done:
                 break
 
@@ -107,18 +104,9 @@ def main():
 
     # create game
     pygame.init()
-    board = np.zeros([20, 15])
-    screen_size = (board.shape[0] * 30, board.shape[1] * 30)
-
-    # create screen
-    DISPLAY = pygame.display.set_mode(screen_size, 0, 32)
-    DISPLAY.fill(helpers.BLACK)
 
     # create board and randomly place food
-    env = Board(DISPLAY, board)
-
-    # draw environment
-    env.draw()
+    env = Env(human_player=False)
 
     # hyperparameters
     num_episodes = 100

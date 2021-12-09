@@ -20,7 +20,8 @@ def main():
 
     done = False
     while not done:
-        df = clock.tick(4)
+
+        df = clock.tick(10)
 
         # check all events
         for event in pygame.event.get():

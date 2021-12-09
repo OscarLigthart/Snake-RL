@@ -15,6 +15,8 @@ class Env:
     """
     def __init__(self, human_player=True):
 
+        self.human_player = human_player
+
         # create snake
         if human_player:
             self.snake = Snake()
@@ -179,4 +181,16 @@ class Env:
         :return: state
         """
 
-        # todo implement
+        # create snake
+        if self.human_player:
+            self.snake = Snake()
+        else:
+            self.snake = AgentSnake()
+
+        # create world
+        self.world = World(self.snake)
+
+        # return a state
+        return self._get_state()
+
+
