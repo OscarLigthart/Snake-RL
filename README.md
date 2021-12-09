@@ -2,7 +2,7 @@
 A self-learning pygame implementation of Snake using Reinforcement Learning.
 
 It consists of two major components:
-- A python package consisting of a basic Snake game built on pygame.
+- A python package consisting of a basic Snake game built on pygame, completed with OpenAI gym wrapper.
 - Reinforcement learning experiments in which agents learn to play this Snake game
 
 ## Setup
