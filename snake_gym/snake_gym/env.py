@@ -144,14 +144,6 @@ class Env:
         # keep angle in same domain
         angle = (angle + 360) % 360
 
-        # a dictionary that converts the action space to relative movement
-        action_space = {
-            Actions.UP: [0, -1],
-            Actions.DOWN: [0, 1],
-            Actions.LEFT: [-1, 0],
-            Actions.RIGHT: [1, 0],
-        }
-
         # convert direction to degrees
         dir_conv = {Actions.UP: 90, Actions.LEFT: -180, Actions.DOWN: -90, Actions.RIGHT: 0}
 
