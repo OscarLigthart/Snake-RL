@@ -36,7 +36,7 @@ class Env:
         done = self.world.run_tick()
 
         # return the environment information
-        return [0, 0, done]
+        return 0, 0, done
 
     def _get_state(self):
         """

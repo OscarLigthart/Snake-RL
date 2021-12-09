@@ -57,11 +57,11 @@ class Snake:
 
         # clip based on the location
         if next_location[0] == -1:
-            next_location[0] = self.width
+            next_location[0] = self.width - 1
         elif next_location[0] == self.width:
             next_location[0] = 0
         elif next_location[1] == -1:
-            next_location[1] = self.height
+            next_location[1] = self.height - 1
         elif next_location[1] == self.height:
             next_location[1] = 0
 

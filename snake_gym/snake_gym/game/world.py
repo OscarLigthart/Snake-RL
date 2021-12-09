@@ -53,7 +53,7 @@ class World:
 
         # check if snake collides
         if self._check_collision():
-            return False
+            return True
 
         ############################
         # Process the board        #
@@ -76,7 +76,7 @@ class World:
         self._draw()
 
         # if we reach this we can continue the game
-        return True
+        return False
 
     def place_food(self):
         """
