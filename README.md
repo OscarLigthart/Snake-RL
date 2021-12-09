@@ -12,9 +12,9 @@ Start by creating the conda environment required to run the application.
 conda env create -f environment.yml
 ```
 
-Now that the environment has been build, you can make the application by running:
+Now that the environment has been build, you can install the snake_gym package by running:
 ```
-make
+pip install snake_gym/
 ```
 
 ## Play the game
