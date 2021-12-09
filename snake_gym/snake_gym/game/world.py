@@ -49,11 +49,10 @@ class World:
         ############################
 
         # check if snake eats food
-        self._check_food()
+        food_capture = self._check_food()
 
         # check if snake collides
-        if self._check_collision():
-            return True
+        collision = self._check_collision()
 
         ############################
         # Process the board        #
@@ -76,7 +75,7 @@ class World:
         self._draw()
 
         # if we reach this we can continue the game
-        return False
+        return food_capture, collision
 
     def place_food(self):
         """
@@ -104,6 +103,7 @@ class World:
     def _check_food(self):
         """
         Private method that checks if snake eats food
+        :return: boolean denoting whether the snake got food
         """
         # check if snake hits food
         if self.snake.head_coords == self.food_location:
@@ -113,6 +113,10 @@ class World:
 
             # place new food
             self.place_food()
+
+            return True
+
+        return False
 
     def _check_collision(self):
         """

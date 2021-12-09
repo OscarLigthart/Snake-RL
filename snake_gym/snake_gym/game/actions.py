@@ -7,7 +7,7 @@ import enum
 
 class Actions(enum.Enum):
     """
-    Actions space
+    Actions that the human can take
     """
     UP = 0
     DOWN = 1
@@ -22,3 +22,13 @@ action_space = {
     Actions.LEFT: [-1, 0],
     Actions.RIGHT: [1, 0],
 }
+
+
+class AgentActions(enum.Enum):
+    """
+    Actions that the agent can take
+    It takes them from ego perspective
+    """
+    RIGHT = 0
+    FORWARD = 1
+    LEFT = 2
