@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from snake_gym.game import World, Snake
+from snake_gym.snake_gym.game import World, Snake
 
 
 clock = pygame.time.Clock()
