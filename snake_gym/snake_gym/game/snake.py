@@ -5,7 +5,7 @@
 #
 ########################
 
-from .actions import action_space
+from .actions import action_space, Actions
 import numpy as np
 
 
@@ -29,11 +29,17 @@ class Snake:
         # keep track of the past head coordinates to create the snake
         self.body = [self.head_coords]
 
+        # we need the direction to
+        self.direction = Actions.RIGHT
+
     def move(self, action):
         """
         This function moves the snake head and lets the body follow
         :param action: integer denoting the action to take
         """
+
+        # store the action as the new direction
+        self.direction = action
 
         # convert action to relative movement
         relative_movement = action_space[action]
@@ -42,7 +48,7 @@ class Snake:
         next_location = [sum(pair) for pair in zip(self.head_coords, relative_movement)]
 
         # clip the next location to get the new head coords
-        self.head_coords = self._clip(next_location)
+        self.head_coords = self.clip(next_location)
 
         # now move the body
         self.body.insert(0, self.head_coords)
@@ -50,9 +56,10 @@ class Snake:
         # trim the body
         self.body = self.body[:self.length]
 
-    def _clip(self, next_location):
+    def clip(self, next_location):
         """
         Clip the next movement based on the size of the board
+        :param next_location: the coordinates of the next location
         """
 
         # clip based on the location
@@ -66,3 +73,25 @@ class Snake:
             next_location[1] = 0
 
         return next_location
+
+
+class AgentSnake(Snake):
+    """
+    Snake that will be controlled by the agent
+    Since the agent uses the ego perspective to control the snake, meaning its action space is:
+        [LEFT, FORWARD, RIGHT]
+
+    There is a different move function implemented
+    """
+    def __init__(self, initial_length=2, board: np.ndarray = np.zeros((20, 15))):
+        """
+        Constructor
+        """
+        # call parent
+        super().__init__(initial_length, board)
+
+    def move(self, action):
+        """
+        Move functions for the agent work slightly different
+        """
+

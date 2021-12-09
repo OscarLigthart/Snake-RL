@@ -47,7 +47,14 @@ def main():
                     action = Actions.DOWN
 
         # need to take a step here, keep track of
-        _, _, done = env.step(action)
+        state, reward, done = env.step(action)
+
+        print("STATE")
+        print(state)
+        print("REWARD")
+        print(reward)
+        print("DONE")
+        print(done)
 
 
 if __name__ == "__main__":
