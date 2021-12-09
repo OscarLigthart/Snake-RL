@@ -1,4 +1,4 @@
-# SnakeRL
+# Snake-RL
 A self-learning pygame implementation of Snake using Reinforcement Learning.
 
 It consists of two major components:
