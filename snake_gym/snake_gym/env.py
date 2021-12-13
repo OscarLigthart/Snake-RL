@@ -48,7 +48,7 @@ class Env:
         # run a game tick in the world
         food_capture, done = self.world.run_tick()
 
-        reward = self._get_reward(prev_location, food_capture, done)
+        reward = self._get_reward(food_capture, done, prev_location)
 
         # get next state, unless we're done, then we use the old one
         if done:
@@ -58,6 +58,13 @@ class Env:
 
         # return the environment information
         return next_state, reward, done
+
+    def get_state_size(self):
+        """
+        Method to retrieve the state size, used to initialize agent network
+        :return:
+        """
+        return len(self._get_state())
 
     def _get_state(self):
         """
@@ -101,7 +108,7 @@ class Env:
 
         return state
 
-    def _get_reward(self, old_coord, food_capture, done):
+    def _get_reward(self, food_capture, done, old_coord):
         """
         Function to calculate the reward given a state
         """
@@ -194,3 +201,42 @@ class Env:
         return self._get_state()
 
 
+class RawEnv(Env):
+    """
+    This class represents the Raw environment
+    The point of this class is to feed the agent a more "raw" version of the environment
+    In this environment,
+    """
+    def __init__(self, human_player=True):
+        super().__init__(human_player)
+
+    def get_state_size(self):
+        """
+        Method to retrieve the state size, used to initialize agent network
+        :return:
+        """
+        return len(self._get_state())
+
+    def _get_state(self):
+        """
+        Function to get the state
+        A state consists of the current representation of the board, flattened
+        so that it can be used in a fully connected network
+        """
+        return self.world.board.flatten()
+
+    def _get_reward(self, food_capture, done, old_coord=None):
+        """
+        Function to calculate the reward given a state
+        """
+
+        # first we check if the snake managed to get food
+        if food_capture:
+            return 10
+
+        # check for collision
+        if done:
+            return -1
+
+        # if neither happened we have a null reward
+        return 0

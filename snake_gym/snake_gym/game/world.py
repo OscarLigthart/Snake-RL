@@ -36,6 +36,7 @@ class World:
 
         # place food upon initialization
         self.food_location = None
+
         self.place_food()
 
     def run_tick(self):

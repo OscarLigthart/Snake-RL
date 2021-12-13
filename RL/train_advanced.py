@@ -13,7 +13,7 @@ from utils.helpers import compute_q_val, compute_target, select_action, get_epsi
 from utils.memory import ReplayMemory
 from agent.qnetwork import QNetwork
 from pygame.locals import *
-from snake_gym.env import Env
+from snake_gym.env import RawEnv
 
 
 clock = pygame.time.Clock()
@@ -106,19 +106,20 @@ def main():
     pygame.init()
 
     # create board and randomly place food
-    env = Env(human_player=False)
+    env = RawEnv(human_player=False)
+    in_channels = env.get_state_size()
 
     # hyperparameters
     num_episodes = 100
-    batch_size = 4 #32
+    batch_size = 32
     discount_factor = 0.8
-    learn_rate = 1e-3
+    learn_rate = 1e-5
     memory = ReplayMemory(1000)
     num_hidden = 128
     df = 8
 
     # create model
-    model = QNetwork(num_hidden)
+    model = QNetwork(in_channels, num_hidden)
 
     # train
     episode_durations = run_episodes(train, model, memory, env,
@@ -126,4 +127,6 @@ def main():
                                      discount_factor, learn_rate, df)
 
 
-main()
+if __name__ == "__main__":
+    main()
+
