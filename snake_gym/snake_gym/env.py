@@ -4,6 +4,7 @@
 ######################
 
 import math
+import pygame
 from snake_gym.game.snake import Snake, AgentSnake
 from snake_gym.game.world import World
 from snake_gym.game.actions import Actions, AgentActions
@@ -175,12 +176,42 @@ class Env:
 
     def _calc_food_distance(self, coords):
         """
-        Method to calculate the distance to the food
+        Method to calculate the shortest distance to the food
+        This method needs to take into account the fact that the snake can travel
+        across the borders of the grid
+        :param coords: the coordinates of the snake head
         """
-        return math.sqrt(
-            abs(coords[0] - self.world.food_location[0]) ** 2
-            + abs(coords[1] - self.world.food_location[1]) ** 2
-        )
+        # get shape size of the board
+        x, y = self.world.board.shape
+
+        # keep track of all the distances, start with the normal screen
+        distances = [self.euclidian_distance_measure(coords, self.world.food_location)]
+
+        # create an array of the difference in coordinates of the different screens
+        screens = [[0, y], [0, -y], [x, 0], [-x, 0]]
+
+        # loop over difference for each screen
+        for diff in screens:
+
+            # calculate the distance to the food on the adjacent screen
+            distances.append(
+                self.euclidian_distance_measure(
+                    coords, [x + y for x, y in zip(self.world.food_location, diff)]
+                )
+            )
+
+        # return the minimal distance
+        return min(distances)
+
+    @staticmethod
+    def euclidian_distance_measure(a, b):
+        """
+        Distance measure function
+        :param a: first coordinate in [x1, y1]
+        :param b: second coordinate in [x2, y2]
+        :return: Euclidian distance
+        """
+        return math.sqrt(abs(a[0] - b[0]) ** 2 + abs(a[1] - b[1]) ** 2)
 
     def reset(self):
         """
@@ -194,8 +225,8 @@ class Env:
         else:
             self.snake = AgentSnake()
 
-        # create world
-        self.world = World(self.snake)
+        # reset world with new snake
+        self.world.reset(self.snake)
 
         # return a state
         return self._get_state()
@@ -224,19 +255,3 @@ class RawEnv(Env):
         so that it can be used in a fully connected network
         """
         return self.world.board.flatten()
-
-    def _get_reward(self, food_capture, done, old_coord=None):
-        """
-        Function to calculate the reward given a state
-        """
-
-        # first we check if the snake managed to get food
-        if food_capture:
-            return 10
-
-        # check for collision
-        if done:
-            return -1
-
-        # if neither happened we have a null reward
-        return 0

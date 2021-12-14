@@ -111,9 +111,9 @@ def main():
 
     # hyperparameters
     num_episodes = 100
-    batch_size = 32
+    batch_size = 4
     discount_factor = 0.8
-    learn_rate = 1e-5
+    learn_rate = 1e-3
     memory = ReplayMemory(1000)
     num_hidden = 128
     df = 8

@@ -21,7 +21,7 @@ class World:
 
     def __init__(self, snake: Snake, board: np.ndarray = np.zeros((20, 15))):
 
-        # create game
+        # initialize pygame
         pygame.init()
 
         # multiply by SCREEN_RATIO pixels to get total screen size
@@ -158,3 +158,16 @@ class World:
 
         # update display
         pygame.display.update()
+
+    def reset(self, snake):
+        """
+        Reset method
+        :param snake: the new Snake object to be put into the world
+        :return:
+        """
+
+        # inherit the snake
+        self.snake = snake
+
+        # place new food
+        self.place_food()
