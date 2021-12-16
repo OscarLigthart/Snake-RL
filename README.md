@@ -3,7 +3,7 @@ A self-learning pygame implementation of Snake using Reinforcement Learning.
 
 It consists of two major components:
 - A python package consisting of a basic Snake game built on pygame, completed with OpenAI gym wrapper.
-- Reinforcement learning experiments in which agents learn to play this Snake game
+- Reinforcement learning experiments using a simple DQN (Deep Q-Network) in which agents learn to play this Snake game
 
 ## Setup
 
@@ -24,9 +24,15 @@ Now that you have built the application, you can play it simply by using the fol
 python -m snake_gym
 ```
 
-## Run the RL experiments
+## Reinforcement Learning experiment
+
 
 You can start the training of the RL experiment by running:
 ```
 python RL/train.py
+```
+
+Alternatively, you can simply run inference of the trained agent by running:
+```
+python RL/inference.py
 ```
