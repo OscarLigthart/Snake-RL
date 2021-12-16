@@ -24,9 +24,15 @@ Now that you have built the application, you can play it simply by using the fol
 python -m snake_gym
 ```
 
-## Run the RL experiments
+## Reinforcement Learning experiment
+
 
 You can start the training of the RL experiment by running:
 ```
 python RL/train.py
+```
+
+Alternatively, you can simply run inference of the trained agent by running:
+```
+python RL/inference.py
 ```
