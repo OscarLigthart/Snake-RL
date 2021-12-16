@@ -13,7 +13,7 @@ from utils.helpers import compute_q_val, compute_target, select_action, get_epsi
 from utils.memory import ReplayMemory
 from agent.qnetwork import QNetwork
 from pygame.locals import *
-from snake_gym.env import RawEnv
+from snake_gym.env import Env
 
 
 clock = pygame.time.Clock()
@@ -106,7 +106,7 @@ def main():
     pygame.init()
 
     # create board and randomly place food
-    env = RawEnv(human_player=False)
+    env = Env(human_player=False)
     in_channels = env.get_state_size()
 
     # hyperparameters
@@ -129,4 +129,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -4,7 +4,6 @@
 ######################
 
 import math
-import pygame
 from snake_gym.game.snake import Snake, AgentSnake
 from snake_gym.game.world import World
 from snake_gym.game.actions import Actions, AgentActions
@@ -82,8 +81,13 @@ class Env:
         # create new state
         state = []
 
-        # get the angle to the fruit
-        angle = self._calc_food_angle()
+        # get the angle to the fruit of the closest fruit
+        # as the snake can traverse borders, a fruit might be closer behind the borders
+        # first get closest food
+        food_coords = self.get_closest_food_coords(self.snake.head_coords)
+
+        # calculate angle to that food
+        angle = self._calc_food_angle(food_coords)
 
         # add the angle to the state
         state.append(angle)
@@ -122,31 +126,25 @@ class Env:
         if done:
             return -1
 
-        # set reward for moving closer/further from fruit
-        old_dist = self._calc_food_distance(old_coord)
-        new_dist = self._calc_food_distance(self.snake.head_coords)
+        # set reward for moving closer/further from food
+        old_dist = self.get_closest_food_distance(old_coord)
+        new_dist = self.get_closest_food_distance(self.snake.head_coords)
 
-        # check if closer or further from fruit
+        # check if closer or further from food
         if old_dist > new_dist:
             return 0.1
         else:
             return -0.2
 
-    def _calc_food_angle(self):
+    def _calc_food_angle(self, food_coord):
         """
         Method to get the angle of the head to the food
         :return: angle (normalized)
         """
 
-        # get coordinates of snake head
-        snake_x, snake_y = self.snake.head_coords
-
-        # get coordinates of food
-        food_x, food_y = self.world.food_location
-
         # get direction to define starting point of angle
         # maybe dictionary to convert direction list to degrees
-        rad = math.atan2(snake_y - food_y, snake_x - food_x)
+        rad = math.atan2(self.snake.head_coords[1] - food_coord[1], self.snake.head_coords[0] - food_coord[0])
 
         # convert radians to angle
         angle = math.degrees(rad)
@@ -174,18 +172,21 @@ class Env:
 
         return angle
 
-    def _calc_food_distance(self, coords):
+    def _calc_food_distances(self, coords):
         """
         Method to calculate the shortest distance to the food
+
         This method needs to take into account the fact that the snake can travel
-        across the borders of the grid
+        across the borders of the grid. Hence, it returns a list of distances to
+        the piece of food approached from each of the borders
+
         :param coords: the coordinates of the snake head
         """
         # get shape size of the board
         x, y = self.world.board.shape
 
         # keep track of all the distances, start with the normal screen
-        distances = [self.euclidian_distance_measure(coords, self.world.food_location)]
+        distances = {tuple(self.world.food_location): self.euclidian_distance_measure(coords, self.world.food_location)}
 
         # create an array of the difference in coordinates of the different screens
         screens = [[0, y], [0, -y], [x, 0], [-x, 0]]
@@ -193,15 +194,38 @@ class Env:
         # loop over difference for each screen
         for diff in screens:
 
-            # calculate the distance to the food on the adjacent screen
-            distances.append(
-                self.euclidian_distance_measure(
-                    coords, [x + y for x, y in zip(self.world.food_location, diff)]
-                )
-            )
+            # calculate the food coord in the adjacent screen
+            food_coord = [x + y for x, y in zip(self.world.food_location, diff)]
 
-        # return the minimal distance
-        return min(distances)
+            # calculate the distance to the food on the adjacent screen
+            distances[tuple(food_coord)] = self.euclidian_distance_measure(coords, food_coord)
+
+        # return the minimal distance as coordinate, distance dict
+        return distances
+
+    def get_closest_food_distance(self, head_coords):
+        """
+        Method to retrieve the closest food from the current snake head location
+        :return:
+        """
+
+        # calculate the food coordinate distances
+        dist = self._calc_food_distances(head_coords)
+
+        # get the minimum value from the dict values
+        return min(dist.values())
+
+    def get_closest_food_coords(self, head_coords):
+        """
+        Method to retrieve the coordinates of the closest piece of food
+        :param head_coords:
+        :return:
+        """
+        # get the distance dictionary
+        dist = self._calc_food_distances(head_coords)
+
+        # get the key of the lowest dict value
+        return min(dist, key=dist.get)
 
     @staticmethod
     def euclidian_distance_measure(a, b):
@@ -230,28 +254,3 @@ class Env:
 
         # return a state
         return self._get_state()
-
-
-class RawEnv(Env):
-    """
-    This class represents the Raw environment
-    The point of this class is to feed the agent a more "raw" version of the environment
-    In this environment,
-    """
-    def __init__(self, human_player=True):
-        super().__init__(human_player)
-
-    def get_state_size(self):
-        """
-        Method to retrieve the state size, used to initialize agent network
-        :return:
-        """
-        return len(self._get_state())
-
-    def _get_state(self):
-        """
-        Function to get the state
-        A state consists of the current representation of the board, flattened
-        so that it can be used in a fully connected network
-        """
-        return self.world.board.flatten()
