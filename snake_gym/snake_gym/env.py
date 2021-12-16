@@ -13,7 +13,7 @@ class Env:
     """
     A gym environment for the Snake game
     """
-    def __init__(self, human_player=True):
+    def __init__(self, human_player=False):
 
         self.human_player = human_player
 

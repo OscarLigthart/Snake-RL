@@ -13,7 +13,7 @@ def main():
     """
 
     # initialize event
-    env = Env()
+    env = Env(human_player=True)
 
     # start by going right
     action = Actions.RIGHT
