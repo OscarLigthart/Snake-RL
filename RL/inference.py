@@ -42,7 +42,7 @@ def main():
     while not done:
 
         # create correct frame rate
-        df = clock.tick(10)
+        clock.tick(10)
 
         # perform a step in the environment
         action = select_action(model, state, 0)
