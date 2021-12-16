@@ -2,6 +2,7 @@
 A self-learning pygame implementation of Snake using Reinforcement Learning.
 
 <img src="/docs/example.gif" alt="Episode of a trained agent"/>
+An episode performed by a trained agent.
 
 It consists of two major components:
 - A python package consisting of a basic Snake game built on pygame, completed with OpenAI gym wrapper.
