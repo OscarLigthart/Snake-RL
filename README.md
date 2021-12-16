@@ -5,7 +5,7 @@ Below you can find an example of an episode performed by a trained agent.
 
 <img src="/docs/example.gif" alt="Episode of a trained agent"/>
 
-It consists of two major components:
+This repository consists of two major components:
 - A python package consisting of a basic Snake game built on pygame, completed with OpenAI gym wrapper.
 - Reinforcement learning experiments using a simple DQN (Deep Q-Network) in which agents learn to play this Snake game
 
