@@ -1,6 +1,8 @@
 # Snake-RL
 A self-learning pygame implementation of Snake using Reinforcement Learning.
 
+Below you can find an example of an episode performed by a trained agent.
+
 <img src="/docs/example.gif" alt="Episode of a trained agent"/>
 
 It consists of two major components:
