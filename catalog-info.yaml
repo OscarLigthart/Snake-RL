@@ -6,6 +6,9 @@ metadata:
     - url: https://github.com/OscarLigthart/Snake-RL
       title: My Dashboard
       icon: dashboard
+    - url: https://console.cloud.google.com/
+      title: Potential GCP link
+      icon: dashboard
   annotations:
     github.com/project-slug: OscarLigthart/Snake-RL
 spec:
