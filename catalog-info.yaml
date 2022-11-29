@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Snake-RL
+  annotations:
+    github.com/project-slug: OscarLigthart/Snake-RL
+spec:
+  type: other
+  lifecycle: unknown
+  owner: OscarLigthart
