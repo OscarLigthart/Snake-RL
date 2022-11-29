@@ -2,6 +2,10 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: Snake-RL
+  links:
+    - url: https://github.com/OscarLigthart/Snake-RL
+      title: My Dashboard
+      icon: dashboard
   annotations:
     github.com/project-slug: OscarLigthart/Snake-RL
 spec:
