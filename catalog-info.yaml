@@ -10,7 +10,7 @@ metadata:
       title: Potential GCP link
       icon: dashboard
   annotations:
-    backstage.io/techdocs-ref: url:https://github.com/OscarLigthart/Snake-RL/README.md
+    backstage.io/techdocs-ref: url:https://raw.githubusercontent.com/OscarLigthart/Snake-RL/main/README.md
     github.com/project-slug: OscarLigthart/Snake-RL
 spec:
   type: other
